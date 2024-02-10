@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 
-import generateJWT from '../../utils/generateJWT.js'
+import generateJWT from '../utils/generateJWT.js'
 import { hashPassword } from '../config/hassPassword.js'
 import User from '../models/user.model.js'
 
