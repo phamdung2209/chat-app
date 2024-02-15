@@ -1,8 +1,38 @@
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 import generateJWT from '../utils/generateJWT.js'
 import { hashPassword } from '../config/hassPassword.js'
 import User from '../models/user.model.js'
+
+export const authMe = async (req, res) => {
+    try {
+        const { _auth: token } = req.cookies
+
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized - No Token Provided' })
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+        if (!decoded) {
+            return res.json({
+                error: 'Unauthorized - Invalid token',
+            })
+        }
+
+        const user = await User.findById(decoded.id).select('-password')
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' })
+        }
+
+        return res.status(200).json(user)
+    } catch (error) {
+        console.log('Error in AuthMe controller', error.message)
+        return res.status(500).json({ error: 'Internal server error' })
+    }
+}
 
 export const loginUser = async (req, res) => {
     try {
@@ -11,8 +41,8 @@ export const loginUser = async (req, res) => {
         const user = await User.findOne({ username })
         const isPasswordCorrect = await bcrypt.compare(password, user?.password ?? '')
 
-        if (!isPasswordCorrect || !user) {
-            return res.status(400).json({ message: 'Username or password is incorrect' })
+        if (!user || !isPasswordCorrect) {
+            return res.json({ error: 'Invalid username or password' })
         }
 
         // generate jwt
@@ -26,7 +56,7 @@ export const loginUser = async (req, res) => {
         })
     } catch (error) {
         console.log('Error in LoginUser controller', error.message)
-        return res.status(500).json({ message: 'Internal server error' })
+        return res.status(500).json({ error: 'Internal server error' })
     }
 }
 
@@ -36,7 +66,7 @@ export const logoutUser = (req, res) => {
         return res.status(200).json({ message: 'User logged out' })
     } catch (error) {
         console.log('Error in LogoutUser controller', error.message)
-        return res.status(500).json({ message: 'Internal server error' })
+        return res.status(500).json({ error: 'Internal server error' })
     }
 }
 
@@ -45,13 +75,13 @@ export const signupUser = async (req, res) => {
         const { fullname, username, password, confirmPassword, gender } = req.body
 
         if (password !== confirmPassword) {
-            return res.status(400).json({ message: 'Password do not match' })
+            return res.status(400).json({ error: 'Password do not match' })
         }
 
         const user = await User.findOne({ username })
 
         if (user) {
-            return res.status(400).json({ message: 'User already exists' })
+            return res.json({ error: 'User already exists' })
         }
 
         // hash password
@@ -82,9 +112,9 @@ export const signupUser = async (req, res) => {
                 profilePic: newUser.profilePic,
             })
         }
-        return res.status(400).json({ message: 'Invalid user data' })
+        return res.status(400).json({ error: 'Invalid user data' })
     } catch (error) {
         console.log('Error in LoginUser controller', error.message)
-        return res.status(500).json({ message: 'Internal server error' })
+        return res.status(500).json({ error: 'Internal server error' })
     }
 }

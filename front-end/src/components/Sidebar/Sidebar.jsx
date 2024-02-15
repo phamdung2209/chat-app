@@ -8,7 +8,6 @@ function Sidebar() {
             <SearchInput />
             <div className="divider px-3"></div>
             <Conversations />
-            <div className="divider px-3"></div>
             <LogoutButton />
         </div>
     )
