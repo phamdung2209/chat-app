@@ -1,8 +1,35 @@
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import io from 'socket.io-client'
+
+import { setSocket, setOnlineUsers } from '../../redux/features/socket'
 import useConversation from '../../zustand/useConversation'
 
 function Conversation({ conversation, emoji, lastIdx }) {
+    const auth = useSelector((state) => state.auth)
+    const dispatch = useDispatch()
     const { selectedConversation, setSelectedConversation } = useConversation()
     const isSelected = selectedConversation?._id === conversation._id
+    const isOnline = useSelector((state) => state.socket.onlineUsers.includes(conversation._id))
+
+    useEffect(() => {
+        const socket = io('http://localhost:8080', {
+            query: {
+                userId: auth.data._id,
+            },
+        })
+
+        dispatch(setSocket(socket))
+
+        socket.on('getOnlineUsers', (onlineUser) => {
+            dispatch(setOnlineUsers(onlineUser))
+        })
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [auth.data._id, dispatch])
+
     return (
         <>
             <div
@@ -11,7 +38,7 @@ function Conversation({ conversation, emoji, lastIdx }) {
                 }`}
                 onClick={() => setSelectedConversation(conversation)}
             >
-                <div className={`avatar online`}>
+                <div className={`avatar ${isOnline && 'online'}`}>
                     <div className="w-12 rounded-full">
                         <img alt="user avatar" src={conversation.profilePic} />
                     </div>

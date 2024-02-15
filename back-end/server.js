@@ -6,10 +6,10 @@ import authRoutes from './routes/auth.routes.js'
 import messageRoutes from './routes/message.routes.js'
 import userRoutes from './routes/user.routes.js'
 import connectDB from './config/connectDB.js'
+import { app, server } from './socket/socket.js'
 
 dotenv.config()
 
-const app = express()
 app.use(express.json()) // for parsing application/json req.body
 app.use(cookieParser())
 
@@ -23,7 +23,7 @@ app.use('/api/users', userRoutes)
 
 const PORT = process.env.PORT ?? 8080
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     connectDB()
     console.log(`Server at http://localhost:${PORT}`)
 })
