@@ -13,7 +13,7 @@ function Conversation({ conversation, emoji, lastIdx }) {
     const isOnline = useSelector((state) => state.socket.onlineUsers.includes(conversation._id))
 
     useEffect(() => {
-        const socket = io('http://localhost:8080', {
+        const socket = io('https://chat-dungpv.onrender.com', {
             query: {
                 userId: auth.data._id,
             },

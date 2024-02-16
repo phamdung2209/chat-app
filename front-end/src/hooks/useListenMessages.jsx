@@ -8,7 +8,7 @@ import notificationSound from '~/assets/sounds/notification.mp3'
 function useListenMessages() {
     const auth = useSelector((state) => state.auth)
     const { messages, setMessages } = useConversation()
-    const socket = io('http://localhost:8080', {
+    const socket = io('https://chat-dungpv.onrender.com', {
         query: {
             userId: auth.data._id,
         },
