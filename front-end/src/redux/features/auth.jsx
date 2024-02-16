@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import toast from 'react-hot-toast'
 import _ from 'lodash'
 
 import * as authService from '../../services/authService'
@@ -13,8 +12,7 @@ const fetchData = async () => {
         data = res
         return res
     } catch (error) {
-        console.log('Error fetching data in auth redux:', error.message)
-        // toast.error(error.message)
+        console.log('Error in fetchData redux', error.message)
         return {}
     }
 }
@@ -22,19 +20,17 @@ const fetchData = async () => {
 export const auth = createSlice({
     name: 'auth',
     initialState: {
-        auth: _.isEmpty(await fetchData()) ? false : true,
+        auth: !_.isEmpty(await fetchData()),
         data: data,
     },
     reducers: {
         login: (state, action) => {
             state.auth = true
-            // state.token = action.payload.token
             state.data = action.payload?.data
         },
 
         logout: (state) => {
             state.auth = false
-            // state.token = ''
             state.data = {}
         },
     },

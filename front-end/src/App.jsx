@@ -5,11 +5,9 @@ import { publicRoutes, privateRoutes } from './routes/routes'
 import config from './config'
 
 function App() {
-    // const dispatch = useDispatch()
     const auth = useSelector((state) => state.auth)
-
-    console.log('auth:', auth)
     const isAuthenticated = auth.auth
+
     return (
         <div className="p-4 h-screen flex items-center justify-center">
             <Router>

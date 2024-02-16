@@ -19,12 +19,10 @@ function useSignUp() {
             const res = await authService.signUp({ fullname, username, password, confirmPassword, gender })
 
             if (res.error) throw new Error(res.error)
-            console.log(res)
 
             dispatch(login())
         } catch (error) {
             toast.error(error.message)
-            console.log('error', error.message)
         } finally {
             setLoading(false)
         }

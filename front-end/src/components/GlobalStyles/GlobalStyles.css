@@ -9,7 +9,6 @@ body {
     background-position: center;
 }
 
-// scroll bar
 html ::-webkit-scrollbar {
     border-radius: 0px;
     width: 8px;
