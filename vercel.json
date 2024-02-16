@@ -7,7 +7,7 @@
     ],
     "routes": [
         {
-            "src": "/(.*)",
+            "src": "/back-end/(.*)",
             "dest": "back-end/server.js"
         }
     ]
