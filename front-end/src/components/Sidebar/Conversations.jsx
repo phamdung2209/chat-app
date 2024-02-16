@@ -1,5 +1,6 @@
 import useGetConversations from '../../hooks/useGetConversations'
-import { getRandomEmoji } from '../../utills/emoJis'
+// import { getRandomEmoji } from '../../utills/emoJis'
+import { getRandomEmoji } from '~/utills/emoJis'
 import Conversation from './Conversation'
 
 function Conversations() {
