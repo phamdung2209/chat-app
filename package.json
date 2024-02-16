@@ -8,7 +8,9 @@
         "start": "nodemon ./back-end/server.js",
         "dev": "cd front-end && npm run dev",
         "server": "node ./back-end/server.js",
-        "build": "npm install && npm install --prefix front-end && npm run build --prefix front-end"
+        "build": "npm install && npm install --prefix front-end && npm run build --prefix front-end",
+        "backend": "npm install",
+        "frontend": "cd front-end && npm install"
     },
     "author": "",
     "license": "ISC",
