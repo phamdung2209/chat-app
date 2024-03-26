@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import path from 'path'
+import cors from 'cors'
 
 import authRoutes from './routes/auth.routes.js'
 import messageRoutes from './routes/message.routes.js'
@@ -15,6 +16,7 @@ const PORT = process.env.PORT ?? 8080
 
 app.use(express.json()) // for parsing application/json req.body
 app.use(cookieParser())
+app.use(cors())
 
 // app.get('/', (req, res) => {
 //     res.send('Server is ready')
