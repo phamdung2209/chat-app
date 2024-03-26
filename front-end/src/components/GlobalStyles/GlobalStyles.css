@@ -69,3 +69,13 @@ html *::-webkit-scrollbar-track {
         transform: translate3d(4px, 0, 0);
     }
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-text-fill-color: #a6adbb !important;
+    -webkit-box-shadow: 0 0 0 1000px #1d232a inset !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+}
